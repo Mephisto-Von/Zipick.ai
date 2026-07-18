@@ -40,5 +40,5 @@ async fn compare_products(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/compare", get(compare_products))
+        .route("/compare", get(compare_products))
 }

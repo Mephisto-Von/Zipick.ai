@@ -19,5 +19,5 @@ async fn list_orders(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/orders", get(list_orders))
+        .route("/orders", get(list_orders))
 }

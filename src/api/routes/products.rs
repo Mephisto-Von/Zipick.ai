@@ -29,6 +29,7 @@ async fn get_product(
     State(state): State<AppState>,
     Path(id): Path<Uuid>,
 ) -> AppResult<Json<Value>> {
+    tracing::info!("get_product called with id: {}", id);
     let product = state.product_repo.find_by_id(id)
         .await?
         .ok_or_else(|| AppError::NotFound("Product not found".into()))?;
@@ -79,7 +80,7 @@ async fn get_price_history(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/products", get(search_products))
-        .route("/api/v1/products/{id}", get(get_product))
-        .route("/api/v1/products/{id}/prices", get(get_price_history))
+        .route("/products", get(search_products))
+        .route("/products/:id", get(get_product))
+        .route("/products/:id/prices", get(get_price_history))
 }

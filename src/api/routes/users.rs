@@ -33,6 +33,6 @@ async fn get_preferences(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/users/me", get(get_profile))
-        .route("/api/v1/users/me/preferences", get(get_preferences))
+        .route("/users/me", get(get_profile))
+        .route("/users/me/preferences", get(get_preferences))
 }

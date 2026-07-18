@@ -26,6 +26,6 @@ async fn create_rfq() -> AppResult<Json<Value>> {
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/procurement/purchase-orders", get(list_purchase_orders).post(create_purchase_order))
-        .route("/api/v1/procurement/rfqs", post(create_rfq))
+        .route("/procurement/purchase-orders", get(list_purchase_orders).post(create_purchase_order))
+        .route("/procurement/rfqs", post(create_rfq))
 }

@@ -39,5 +39,5 @@ async fn universal_search(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/search", get(universal_search))
+        .route("/search", get(universal_search))
 }

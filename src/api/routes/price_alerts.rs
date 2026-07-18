@@ -15,5 +15,5 @@ async fn list_alerts() -> AppResult<Json<Value>> {
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/price-alerts", get(list_alerts))
+        .route("/price-alerts", get(list_alerts))
 }

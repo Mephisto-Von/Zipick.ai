@@ -42,6 +42,6 @@ async fn list_agent_runs(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/agents/execute", post(execute_agent))
-        .route("/api/v1/agents/runs", get(list_agent_runs))
+        .route("/agents/execute", post(execute_agent))
+        .route("/agents/runs", get(list_agent_runs))
 }

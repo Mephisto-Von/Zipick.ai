@@ -17,5 +17,5 @@ async fn track_shipment(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/tracking/{tracking_number}", get(track_shipment))
+        .route("/tracking/:tracking_number", get(track_shipment))
 }

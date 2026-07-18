@@ -114,6 +114,6 @@ fn generate_token(user_id: Uuid, email: &str, role: &str, secret: &str) -> AppRe
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/auth/register", post(register))
-        .route("/api/v1/auth/login", post(login))
+        .route("/auth/register", post(register))
+        .route("/auth/login", post(login))
 }

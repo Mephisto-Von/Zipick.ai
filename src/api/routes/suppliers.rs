@@ -40,6 +40,6 @@ async fn get_supplier(
 
 pub fn router() -> Router<crate::api::AppState> {
     Router::new()
-        .route("/api/v1/suppliers", get(search_suppliers))
-        .route("/api/v1/suppliers/{id}", get(get_supplier))
+        .route("/suppliers", get(search_suppliers))
+        .route("/suppliers/:id", get(get_supplier))
 }
