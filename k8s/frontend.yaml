@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: zipick
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: zipick-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipick-frontend
+  namespace: zipick
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: zipick-frontend
+  template:
+    metadata:
+      labels:
+        app: zipick-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: zipick/frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: https://api.zipick.ai/api/v1
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
