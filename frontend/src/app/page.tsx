@@ -14,9 +14,16 @@ interface Product {
   buying_score?: number
 }
 
+function getApiBase(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/v1$/, '')
+  }
+  return 'http://localhost:8080'
+}
+
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
-    const base = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://api:8080'
+    const base = getApiBase()
     const res = await fetch(`${base}/api/v1/products?limit=6&sort_by=buying_score&sort_order=desc`, {
       next: { revalidate: 30 }
     })
@@ -29,7 +36,7 @@ async function getFeaturedProducts(): Promise<Product[]> {
 
 async function getCategories(): Promise<string[]> {
   try {
-    const base = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://api:8080'
+    const base = getApiBase()
     const res = await fetch(`${base}/api/v1/products?limit=100`, { next: { revalidate: 30 } })
     const data = await res.json()
     const cats = [...new Set((data.data || []).map((p: Product) => p.category).filter(Boolean))] as string[]
