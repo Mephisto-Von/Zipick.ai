@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y pkg-config libssl-dev && rm -rf /var/li
 WORKDIR /app
 COPY Cargo.toml Cargo.lock* ./
 COPY src/ src/
-COPY .sqlx/ .sqlx/
+RUN mkdir -p .sqlx
 
 RUN cargo build --release --locked
 
