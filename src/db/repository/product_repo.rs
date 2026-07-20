@@ -69,9 +69,67 @@ impl ProductRepository {
         let mut params: Vec<String> = vec![];
 
         if let Some(q) = &query.query {
+            let q_lower = q.to_lowercase();
+            let mut category_extra = String::new();
+            let aliases: Vec<(&str, &str)> = vec![
+                ("gpu", "Graphics Cards"),
+                ("graphics card", "Graphics Cards"),
+                ("graphics cards", "Graphics Cards"),
+                ("video card", "Graphics Cards"),
+                ("laptop", "Laptops"),
+                ("laptops", "Laptops"),
+                ("notebook", "Laptops"),
+                ("phone", "Smartphones"),
+                ("phones", "Smartphones"),
+                ("smartphone", "Smartphones"),
+                ("iphone", "Smartphones"),
+                ("android", "Smartphones"),
+                ("headphone", "Headphones"),
+                ("headphones", "Headphones"),
+                ("earbuds", "Headphones"),
+                ("earphones", "Headphones"),
+                ("headset", "Headphones"),
+                ("monitor", "Monitors"),
+                ("monitors", "Monitors"),
+                ("display", "Monitors"),
+                ("screen", "Monitors"),
+                ("ssd", "Storage"),
+                ("hdd", "Storage"),
+                ("hard drive", "Storage"),
+                ("storage", "Storage"),
+                ("memory", "Storage"),
+                ("ram", "Storage"),
+                ("usb drive", "Storage"),
+                ("flash drive", "Storage"),
+                ("keyboard", "Keyboards"),
+                ("keyboards", "Keyboards"),
+                ("mechanical keyboard", "Keyboards"),
+                ("mouse", "Mice"),
+                ("mice", "Mice"),
+                ("gaming mouse", "Mice"),
+                ("wireless mouse", "Mice"),
+                ("tablet", "Tablets"),
+                ("tablets", "Tablets"),
+                ("ipad", "Tablets"),
+                ("smart home", "Smart Home"),
+                ("smart-home", "Smart Home"),
+                ("alexa", "Smart Home"),
+                ("home assistant", "Smart Home"),
+                ("gaming", "Gaming"),
+                ("console", "Gaming"),
+                ("playstation", "Gaming"),
+                ("xbox", "Gaming"),
+                ("nintendo", "Gaming"),
+            ];
+            for (alias, cat) in &aliases {
+                if q_lower.contains(alias) {
+                    category_extra = format!(" OR category ILIKE '%{}%'", cat);
+                    break;
+                }
+            }
             params.push(format!(
-                " AND (name ILIKE '%{}%' OR description ILIKE '%{}%' OR brand ILIKE '%{}%')",
-                q, q, q
+                " AND (name ILIKE '%{}%' OR description ILIKE '%{}%' OR brand ILIKE '%{}%' OR category ILIKE '%{}%'{})",
+                q, q, q, q, category_extra
             ));
         }
         if let Some(cat) = &query.category {
