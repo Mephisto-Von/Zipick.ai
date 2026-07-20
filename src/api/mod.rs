@@ -8,6 +8,7 @@ use std::sync::Arc;
 use crate::core::config::Config;
 use crate::core::error::AppError;
 use crate::db::repository::*;
+use crate::integrations::DummyJsonClient;
 use crate::services::AgentOrchestrator;
 
 #[derive(Clone)]
@@ -20,6 +21,7 @@ pub struct AppState {
     pub supplier_repo: SupplierRepository,
     pub agent_repo: AgentRepository,
     pub orchestrator: Arc<AgentOrchestrator>,
+    pub dummy_json: Arc<DummyJsonClient>,
 }
 
 impl AppState {
@@ -31,6 +33,7 @@ impl AppState {
             supplier_repo: SupplierRepository::new(pool.clone()),
             agent_repo: AgentRepository::new(pool.clone()),
             orchestrator: Arc::new(AgentOrchestrator::new(config.clone())),
+            dummy_json: Arc::new(DummyJsonClient::new()),
             pool,
             config,
         }

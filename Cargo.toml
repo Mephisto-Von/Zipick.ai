@@ -52,6 +52,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 futures = "0.3"
 async-trait = "0.1"
 strum = { version = "0.26", features = ["derive"] }
+urlencoding = "2"
 
 
 

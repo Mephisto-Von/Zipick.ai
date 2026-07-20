@@ -44,6 +44,31 @@ async fn search_products(
     let page = query.page.unwrap_or(1).max(1);
     let limit = query.limit.unwrap_or(20).min(100);
 
+    if let Some(ref q) = query.query {
+        if !q.trim().is_empty() {
+            let api_limit = limit.min(30) as u32;
+            match state.dummy_json.search(q, api_limit).await {
+            Ok(results) => {
+                if !results.is_empty() {
+                    let total = results.len() as i64;
+                    return Ok(Json(json!(ApiResponse::paginated(
+                        results,
+                        Pagination {
+                            page,
+                            per_page: limit,
+                            total,
+                        }
+                    ))));
+                }
+                tracing::info!("DummyJSON returned no results for '{}', falling back to DB", q);
+            }
+                Err(e) => {
+                    tracing::warn!("DummyJSON search failed: {}, falling back to DB", e);
+                }
+            }
+        }
+    }
+
     let search = ProductSearch {
         query: query.query,
         category: query.category,
